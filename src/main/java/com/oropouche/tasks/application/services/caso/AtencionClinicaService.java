@@ -3,6 +3,7 @@ package com.oropouche.tasks.application.services.caso;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import static com.oropouche.tasks.application.services.caso.CasoSoporte.esBlanco
 public class AtencionClinicaService implements AtencionClinicaUseCase {
 
     static final int MAX_TEXTO = 2000;
+    private static final DateTimeFormatter FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private final CasoRepositoryPort casoRepositoryPort;
     private final DesenlaceRepositoryPort desenlaceRepositoryPort;
@@ -164,7 +166,7 @@ public class AtencionClinicaService implements AtencionClinicaUseCase {
         caso.setFechaCierre(fecha);
         caso.setObservacionesCierre(observaciones);
         caso.getEventos().add(new EventoCaso(null, soporte.ahora(), TipoEventoCaso.CIERRE,
-                "Desenlace: " + desenlace.getNombre() + " (" + fecha + ")"
+                "Desenlace: " + desenlace.getNombre() + " (" + fecha.format(FECHA) + ")"
                         + (esBlanco(observaciones) ? "" : ". " + observaciones.trim()),
                 usuarioActualPort.username()));
 
@@ -186,7 +188,8 @@ public class AtencionClinicaService implements AtencionClinicaUseCase {
         }
 
         String cierreAnterior = caso.getDesenlace() == null ? "" :
-                " (cierre anterior: " + caso.getDesenlace().getNombre() + ", " + caso.getFechaCierre() + ")";
+                " (cierre anterior: " + caso.getDesenlace().getNombre() + ", "
+                + (caso.getFechaCierre() == null ? "sin fecha" : caso.getFechaCierre().format(FECHA)) + ")";
 
         caso.setEstado(EstadoCaso.ABIERTO);
         caso.setDesenlace(null);

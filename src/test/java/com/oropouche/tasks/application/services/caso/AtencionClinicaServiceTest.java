@@ -245,6 +245,8 @@ class AtencionClinicaServiceTest {
         assertNull(r.caso().getDesenlace());
         assertEquals(TipoEventoCaso.REAPERTURA, r.caso().getEventos().get(0).getTipo());
         assertTrue(r.caso().getEventos().get(0).getDetalle().contains("cierre anterior: Recuperado"));
+        assertTrue(r.caso().getEventos().get(0).getDetalle().matches(".*cierre anterior: Recuperado, \\d{2}/\\d{2}/\\d{4}\\).*"),
+                "la fecha del cierre anterior se muestra como dd/MM/aaaa");
     }
 
     @Test

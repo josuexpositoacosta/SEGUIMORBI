@@ -1,11 +1,13 @@
 package com.oropouche.tasks.domain.models.caso;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,6 +16,29 @@ import java.util.stream.Collectors;
  * Son avisos basados en las recomendaciones de la OPS; la decisión clínica corresponde al médico.
  */
 public class AlertasClinicas {
+
+    private static final DateTimeFormatter FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    /** Nombres legibles de los signos para los mensajes que lee el profesional. */
+    private static final Map<String, String> NOMBRES = Map.ofEntries(
+            Map.entry("POSTRACION", "postración"),
+            Map.entry("LUMBALGIA", "lumbalgia"),
+            Map.entry("VOMITOS_PERSISTENTES", "vómitos persistentes"),
+            Map.entry("PETEQUIAS", "petequias"),
+            Map.entry("EPISTAXIS", "epistaxis"),
+            Map.entry("SANGRADO_GINGIVAL", "sangrado gingival"),
+            Map.entry("VERTIGO", "vértigo"),
+            Map.entry("LETARGIA", "letargia"),
+            Map.entry("NISTAGMO", "nistagmo"),
+            Map.entry("RIGIDEZ_NUCA", "rigidez de nuca"),
+            Map.entry("DOLOR_ABDOMINAL_INTENSO", "dolor abdominal intenso"),
+            Map.entry("ACUMULACION_LIQUIDOS", "acumulación de líquidos"),
+            Map.entry("SANGRADO_MUCOSAS", "sangrado de mucosas"),
+            Map.entry("LETARGO_IRRITABILIDAD", "letargo o irritabilidad"),
+            Map.entry("HIPOTENSION_POSTURAL", "hipotensión postural"),
+            Map.entry("HEPATOMEGALIA", "hepatomegalia"),
+            Map.entry("AUMENTO_PROGRESIVO_HEMATOCRITO", "aumento progresivo del hematocrito"));
+
 
     public List<Alerta> evaluar(Caso caso, LocalDate hoy) {
 
@@ -58,7 +83,7 @@ public class AlertasClinicas {
 
         LocalDate proximo = caso.proximoControl();
         if (proximo != null && proximo.isBefore(hoy)) {
-            alertas.add(new Alerta(TipoAlerta.CONTROL_VENCIDO, "Control vencido desde el " + proximo));
+            alertas.add(new Alerta(TipoAlerta.CONTROL_VENCIDO, "Control vencido desde el " + proximo.format(FECHA)));
         }
 
         return alertas;
@@ -71,6 +96,9 @@ public class AlertasClinicas {
     }
 
     private static String nombres(Set<? extends Enum<?>> valores) {
-        return valores.stream().map(Enum::name).sorted().collect(Collectors.joining(", "));
+        return valores.stream()
+                .map(v -> NOMBRES.getOrDefault(v.name(), v.name().toLowerCase().replace('_', ' ')))
+                .sorted()
+                .collect(Collectors.joining(", "));
     }
 }
