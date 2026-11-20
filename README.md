@@ -80,7 +80,7 @@ flowchart TB
 | Users | `GET /api/v1/user/me`, `GET /api/v1/user/{id}`, `PUT /api/v1/user` | Each user can only read and update their own personal data. |
 | Epidemiological surveillance | `/api/v1/estadisticas/…` | EPIDEMIOLOGO only: summary indicators, epidemic curve by epidemiological week, cases by healthcare area, and CSV export without personal data. See [docs/vigilancia.md](docs/vigilancia.md). |
 | User administration | `/api/v1/admin/usuarios` | ADMIN only: create users, assign role, healthcare area and email, activate or deactivate, reset passwords. See [docs/roles-y-acceso.md](docs/roles-y-acceso.md). |
-| Healthcare areas | `/api/v1/areas-salud` | Create, list (all / active), find by id or code, update, deactivate. |
+| Healthcare areas | `/api/v1/areas-salud` | Create, list (all / active), find by id or code, update, deactivate and reactivate. |
 | Patients | `/api/v1/pacientes` | Register, list (all / by area), find, update, deactivate. |
 | Oropouche cases | `/api/v1/casos` | Register cases, laboratory results, and classification history. The system suggests the classification using PAHO case definitions; the professional decides. See [docs/modulo-casos.md](docs/modulo-casos.md). |
 | Clinical care | `/api/v1/casos/{id}/…`, `/api/v1/desenlaces` | Clinical evaluations, medical opinions, care plans, follow-ups, case closure and reopening, follow-up schedule, and clinical alerts based on PAHO recommendations. Editable catalog of case outcomes. See [docs/modulo-clinico.md](docs/modulo-clinico.md). |
@@ -128,7 +128,7 @@ cp application-local.properties.example application-local.properties
 
 The project includes automated tests for use cases, application services, persistence adapters, REST controllers, and security rules (integration tests with H2).
 
-Latest recorded validation: **172 tests executed, with no failures or errors.**
+Latest recorded validation: **174 tests executed, with no failures or errors.**
 
 Current status, how to run the project locally, and next steps: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 
@@ -224,7 +224,7 @@ flowchart TB
 | Usuarios | `GET /api/v1/user/me`, `GET /api/v1/user/{id}`, `PUT /api/v1/user` | Cada usuario solo consulta y modifica sus propios datos personales. |
 | Vigilancia epidemiológica | `/api/v1/estadisticas/…` | Solo EPIDEMIOLOGO: indicadores, curva epidémica por semana epidemiológica, casos por área de salud y exportación CSV sin datos personales. Ver [docs/vigilancia.md](docs/vigilancia.md). |
 | Administración de usuarios | `/api/v1/admin/usuarios` | Solo ADMIN: crear usuarios, asignar rol, área de salud y email, activar o desactivar y restablecer contraseñas. Ver [docs/roles-y-acceso.md](docs/roles-y-acceso.md). |
-| Áreas de salud | `/api/v1/areas-salud` | Crear, listar (todas / activas), buscar por id o código, actualizar, desactivar. |
+| Áreas de salud | `/api/v1/areas-salud` | Crear, listar (todas / activas), buscar por id o código, actualizar, desactivar y reactivar. |
 | Pacientes | `/api/v1/pacientes` | Registrar, listar (todos / por área), buscar, actualizar, desactivar. |
 | Casos de Oropouche | `/api/v1/casos` | Registro de casos, resultados de laboratorio e historial de clasificación. El sistema sugiere la clasificación según las definiciones de caso de la OPS; decide el profesional. Ver [docs/modulo-casos.md](docs/modulo-casos.md). |
 | Atención clínica | `/api/v1/casos/{id}/…`, `/api/v1/desenlaces` | Evaluaciones clínicas, dictámenes, planes de atención, seguimientos, cierre y reapertura del caso, agenda de controles y alertas clínicas basadas en las recomendaciones de la OPS. Catálogo editable de desenlaces. Ver [docs/modulo-clinico.md](docs/modulo-clinico.md). |
@@ -272,7 +272,7 @@ cp application-local.properties.example application-local.properties
 
 El proyecto dispone de pruebas automatizadas para casos de uso, servicios de aplicación, adaptadores de persistencia, controladores REST y reglas de seguridad (pruebas de integración con H2).
 
-Última validación registrada: **172 pruebas ejecutadas, sin fallos ni errores.**
+Última validación registrada: **174 pruebas ejecutadas, sin fallos ni errores.**
 
 Estado actual, cómo arrancar el proyecto en local y siguientes pasos: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 

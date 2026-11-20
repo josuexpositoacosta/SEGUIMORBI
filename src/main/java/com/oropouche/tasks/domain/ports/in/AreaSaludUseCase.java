@@ -22,4 +22,7 @@ public interface AreaSaludUseCase {
     AreaSalud actualizar(Long id, AreaSalud datos);
 
     AreaSalud desactivar(Long id);
+
+    /** Vuelve a activar un área desactivada (los registros nunca se borran). */
+    AreaSalud activar(Long id);
 }

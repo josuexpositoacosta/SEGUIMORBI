@@ -195,4 +195,21 @@ class AreaSaludServiceTest {
 
         verify(repository).save(existente);
     }
+
+    @Test
+    void activarDebeReactivarUnAreaDesactivada() {
+
+        AreaSalud existente = crearArea();
+        existente.setId(1L);
+        existente.setActivo(false);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(existente));
+        when(repository.save(any(AreaSalud.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        AreaSalud resultado = service.activar(1L);
+
+        assertTrue(resultado.isActivo());
+        verify(repository).save(existente);
+    }
 }
