@@ -3,9 +3,11 @@ package com.oropouche.tasks.application.services.user;
 import java.util.List;
 import java.util.Objects;
 
+import com.oropouche.tasks.domain.exceptions.RecursoDuplicadoException;
 import com.oropouche.tasks.domain.exceptions.RecursoNoEncontradoException;
 import com.oropouche.tasks.domain.exceptions.UserAlreadyExistsException;
 import com.oropouche.tasks.domain.models.area_salud.AreaSalud;
+import com.oropouche.tasks.domain.models.user.Email;
 import com.oropouche.tasks.domain.models.user.Role;
 import com.oropouche.tasks.domain.models.user.User;
 import com.oropouche.tasks.domain.ports.in.GestionUsuariosUseCase;
@@ -51,9 +53,11 @@ public class GestionUsuariosService implements GestionUsuariosUseCase {
         if (usuarios.findByUsername(username).isPresent()) {
             throw new UserAlreadyExistsException(username);
         }
+        String email = validarEmailDisponible(nuevo.getEmail(), null);
 
         return usuarios.save(User.builder()
                 .username(username)
+                .email(email)
                 .password(passwordEncoder.encode(nuevo.getPassword()))
                 .firstname(nuevo.getFirstname().trim())
                 .lastname(nuevo.getLastname().trim())
@@ -98,6 +102,13 @@ public class GestionUsuariosService implements GestionUsuariosUseCase {
         validarPassword(nuevaPassword);
         usuario.setPassword(passwordEncoder.encode(nuevaPassword));
         usuarios.save(usuario);
+    }
+
+    @Override
+    public User cambiarEmail(Integer id, String email) {
+        User usuario = obtener(id);
+        usuario.setEmail(validarEmailDisponible(email, id));
+        return usuarios.save(usuario);
     }
 
     @Override
@@ -152,6 +163,26 @@ public class GestionUsuariosService implements GestionUsuariosUseCase {
                     "El nombre de usuario debe tener entre 3 y 50 caracteres: letras, números, punto, guion o guion bajo");
         }
         return username.trim();
+    }
+
+    /**
+     * Valida y normaliza un email opcional. Devuelve null si viene vacío.
+     * {@code idPropio} permite que un usuario conserve su propio email al cambiarlo.
+     */
+    private String validarEmailDisponible(String email, Integer idPropio) {
+        if (esBlanco(email)) {
+            return null;
+        }
+        String normalizado = Email.normalizar(email);
+        if (!Email.esValido(normalizado)) {
+            throw new IllegalArgumentException("El email no tiene un formato válido");
+        }
+        usuarios.findByEmail(normalizado)
+                .filter(otro -> !Objects.equals(otro.getId(), idPropio))
+                .ifPresent(otro -> {
+                    throw new RecursoDuplicadoException("Ya existe un usuario con el email: " + normalizado);
+                });
+        return normalizado;
     }
 
     private static void validarPassword(String password) {

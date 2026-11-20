@@ -1,6 +1,9 @@
 package com.oropouche.tasks.application.usecases;
 
+import java.util.Optional;
+
 import com.oropouche.tasks.domain.exceptions.InvalidCredentialsException;
+import com.oropouche.tasks.domain.models.user.Email;
 import com.oropouche.tasks.domain.models.user.User;
 import com.oropouche.tasks.domain.ports.in.LoginUseCase;
 import com.oropouche.tasks.domain.ports.out.AuthenticationPort;
@@ -32,10 +35,17 @@ public class LoginUseCaseImpl implements LoginUseCase {
 
         authenticationPort.authenticate(username, password);
 
-        User user = userRepositoryPort.findByUsername(username)
+        User user = buscarPorUsuarioOEmail(username)
                 .orElseThrow(InvalidCredentialsException::new);
 
         return tokenProviderPort.generateToken(user);
+    }
+
+    /** El identificador puede ser el nombre de usuario o el email. */
+    private Optional<User> buscarPorUsuarioOEmail(String identificador) {
+        return Email.esIdentificadorEmail(identificador)
+                ? userRepositoryPort.findByEmail(Email.normalizar(identificador))
+                : userRepositoryPort.findByUsername(identificador);
     }
 
     private static boolean isBlank(String value) {

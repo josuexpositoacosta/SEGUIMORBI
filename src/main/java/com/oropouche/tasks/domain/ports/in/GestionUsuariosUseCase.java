@@ -20,6 +20,9 @@ public interface GestionUsuariosUseCase {
 
     void restablecerPassword(Integer id, String nuevaPassword);
 
+    /** Asigna o cambia el email. Vacío o null lo quita. Debe ser único. */
+    User cambiarEmail(Integer id, String email);
+
     /** Crea el primer administrador si no existe ninguno activo. Devuelve true si lo creó. */
     boolean crearAdminInicialSiNoExiste(String username, String password);
 }

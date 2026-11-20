@@ -19,6 +19,7 @@ import com.oropouche.tasks.domain.models.user.User;
 import com.oropouche.tasks.domain.ports.in.GestionUsuariosUseCase;
 import com.oropouche.tasks.infrastructure.controllers.admin.dto.ActualizarUsuarioRequest;
 import com.oropouche.tasks.infrastructure.controllers.admin.dto.CrearUsuarioRequest;
+import com.oropouche.tasks.infrastructure.controllers.admin.dto.EmailRequest;
 import com.oropouche.tasks.infrastructure.controllers.admin.dto.PasswordRequest;
 import com.oropouche.tasks.infrastructure.controllers.admin.dto.UsuarioResponse;
 
@@ -47,6 +48,7 @@ public class AdminUsuariosController {
     public ResponseEntity<UsuarioResponse> crear(@RequestBody CrearUsuarioRequest r) {
         User creado = gestionUsuarios.crear(User.builder()
                 .username(r.getUsername())
+                .email(r.getEmail())
                 .password(r.getPassword())
                 .firstname(r.getFirstname())
                 .lastname(r.getLastname())
@@ -67,5 +69,10 @@ public class AdminUsuariosController {
     public ResponseEntity<Void> restablecerPassword(@PathVariable Integer id, @RequestBody PasswordRequest r) {
         gestionUsuarios.restablecerPassword(id, r.getPassword());
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/email")
+    public ResponseEntity<UsuarioResponse> cambiarEmail(@PathVariable Integer id, @RequestBody EmailRequest r) {
+        return ResponseEntity.ok(UsuarioResponse.from(gestionUsuarios.cambiarEmail(id, r.getEmail())));
     }
 }

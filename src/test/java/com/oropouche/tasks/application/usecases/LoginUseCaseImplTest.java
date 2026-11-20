@@ -81,4 +81,18 @@ class LoginUseCaseImplTest {
 
         verifyNoInteractions(authenticationPort, userRepositoryPort, tokenProviderPort);
     }
+
+    @Test
+    void shouldLoginWithEmailIgnoringCase() {
+
+        User user = User.builder().id(1).username("ana").email("ana@salud.cu").role(Role.MEDICO).build();
+        when(userRepositoryPort.findByEmail("ana@salud.cu")).thenReturn(Optional.of(user));
+        when(tokenProviderPort.generateToken(user)).thenReturn("token-email");
+
+        String token = loginUseCase.login(" Ana@Salud.CU ", "secreta");
+
+        assertEquals("token-email", token);
+        verify(authenticationPort).authenticate(" Ana@Salud.CU ", "secreta");
+        verify(userRepositoryPort, never()).findByUsername(anyString());
+    }
 }

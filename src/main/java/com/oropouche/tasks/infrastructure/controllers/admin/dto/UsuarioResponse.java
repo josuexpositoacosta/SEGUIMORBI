@@ -15,6 +15,7 @@ public class UsuarioResponse {
 
     private Integer id;
     private String username;
+    private String email;
     private String firstname;
     private String lastname;
     private String country;
@@ -23,7 +24,7 @@ public class UsuarioResponse {
     private boolean activo;
 
     public static UsuarioResponse from(User u) {
-        return new UsuarioResponse(u.getId(), u.getUsername(), u.getFirstname(), u.getLastname(),
+        return new UsuarioResponse(u.getId(), u.getUsername(), u.getEmail(), u.getFirstname(), u.getLastname(),
                 u.getCountry(), u.getRole(), u.getAreaSaludId(), u.isActivo());
     }
 }
