@@ -128,7 +128,7 @@ cp application-local.properties.example application-local.properties
 
 The project includes automated tests for use cases, application services, persistence adapters, REST controllers, and security rules (integration tests with H2).
 
-Latest recorded validation: **174 tests executed, with no failures or errors.**
+Latest recorded validation: **178 tests executed, with no failures or errors.**
 
 Current status, how to run the project locally, and next steps: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 
@@ -272,7 +272,7 @@ cp application-local.properties.example application-local.properties
 
 El proyecto dispone de pruebas automatizadas para casos de uso, servicios de aplicación, adaptadores de persistencia, controladores REST y reglas de seguridad (pruebas de integración con H2).
 
-Última validación registrada: **174 pruebas ejecutadas, sin fallos ni errores.**
+Última validación registrada: **178 pruebas ejecutadas, sin fallos ni errores.**
 
 Estado actual, cómo arrancar el proyecto en local y siguientes pasos: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 

@@ -152,6 +152,8 @@ class ClasificadorOPSTest {
         caso.setAreaTransmisionOViaje(true);
         caso.getResultados().add(prueba(AgenteEtiologico.OROPOUCHE, TipoPrueba.RT_PCR, ResultadoPrueba.POSITIVO));
         assertEquals(Optional.of(Clasificacion.CONFIRMADO), sugerida(caso));
+        assertTrue(new ClasificadorOPS().evaluar(caso).criterios()
+                .contains("Laboratorio confirmatorio: RT-PCR de Oropouche positiva"));
     }
 
     @Test

@@ -84,7 +84,7 @@ public class ClasificadorOPS implements DefinicionCaso {
 
         for (TipoPrueba tipo : PRUEBAS_CONFIRMATORIAS) {
             if (tienePositivo(caso, tipo)) {
-                criterios.add("Laboratorio confirmatorio: " + tipo + " de Oropouche positiva");
+                criterios.add("Laboratorio confirmatorio: " + nombrePrueba(tipo) + " de Oropouche positiva");
                 confirmado = true;
             }
         }
@@ -124,5 +124,18 @@ public class ClasificadorOPS implements DefinicionCaso {
     private static boolean tienePositivo(Caso caso, TipoPrueba tipo) {
         return caso.getResultados().stream()
                 .anyMatch(r -> r.esPositivoDe(AgenteEtiologico.OROPOUCHE, tipo));
+    }
+
+    /** Nombre legible de la prueba para los criterios que lee el profesional. */
+    private static String nombrePrueba(TipoPrueba tipo) {
+        switch (tipo) {
+            case RT_PCR: return "RT-PCR";
+            case ANTIGENO: return "detección de antígenos";
+            case SEROCONVERSION_PAREADA: return "seroconversión en muestras pareadas";
+            case POST_MORTEM: return "prueba post mortem";
+            case IGM_LCR: return "IgM en LCR";
+            case ELISA_IGM: return "ELISA IgM";
+            default: return tipo.name();
+        }
     }
 }

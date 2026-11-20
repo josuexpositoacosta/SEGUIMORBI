@@ -114,6 +114,7 @@ Todas las rutas requieren JWT.
 
 | Método | Ruta | Descripción |
 |---|---|---|
+| `POST` | `/api/v1/casos/sugerencia` | Vista previa: evalúa los datos clínicos y devuelve `{clasificacion, criterios}` sin guardar nada (solo MEDICO). Permite mostrar la sugerencia mientras se rellena el formulario. |
 | `POST` | `/api/v1/casos` | Registrar un caso. Devuelve el caso con su sugerencia. |
 | `GET` | `/api/v1/casos?areaSaludId=&clasificacion=&estado=` | Listar con filtros opcionales. |
 | `GET` | `/api/v1/casos/{id}` | Detalle: datos, resultados, historial y sugerencia. |

@@ -3,6 +3,7 @@ package com.oropouche.tasks.domain.ports.in;
 import java.util.List;
 
 import com.oropouche.tasks.domain.models.caso.Caso;
+import com.oropouche.tasks.domain.models.caso.ResultadoClasificacion;
 import com.oropouche.tasks.domain.models.caso.Clasificacion;
 import com.oropouche.tasks.domain.models.caso.EstadoCaso;
 import com.oropouche.tasks.domain.models.caso.EvaluacionCaso;
@@ -18,6 +19,12 @@ public interface CasoUseCase {
      * caso sospechoso, {@code motivo} es obligatorio y el caso queda como SOSPECHOSO.
      */
     EvaluacionCaso registrar(Caso caso, String motivo);
+
+    /**
+     * Evalúa unos datos clínicos con la definición de caso vigente, sin guardar nada. Sirve para
+     * que el profesional vea la clasificación sugerida y los criterios antes de registrar el caso.
+     */
+    ResultadoClasificacion sugerir(Caso datos);
 
     EvaluacionCaso buscarPorId(Long id);
 

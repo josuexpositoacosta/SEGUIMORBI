@@ -3,6 +3,7 @@ package com.oropouche.tasks.application.services.acceso;
 import java.util.List;
 
 import com.oropouche.tasks.domain.models.caso.Caso;
+import com.oropouche.tasks.domain.models.caso.ResultadoClasificacion;
 import com.oropouche.tasks.domain.models.caso.Clasificacion;
 import com.oropouche.tasks.domain.models.caso.EstadoCaso;
 import com.oropouche.tasks.domain.models.caso.EvaluacionCaso;
@@ -39,6 +40,13 @@ public class CasoUseCaseConAcceso implements CasoUseCase {
             politica.verificarRol(Role.MEDICO);
         }
         return delegado.registrar(caso, motivo);
+    }
+
+    /** Solo evalúa datos enviados, sin leer ni guardar casos: basta con ser médico. */
+    @Override
+    public ResultadoClasificacion sugerir(Caso datos) {
+        politica.verificarRol(Role.MEDICO);
+        return delegado.sugerir(datos);
     }
 
     @Override
