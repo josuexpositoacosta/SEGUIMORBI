@@ -129,6 +129,17 @@ public class PacienteService implements PacienteUseCase {
         return pacienteRepositoryPort.save(paciente);
     }
 
+    @Override
+    public Paciente activar(Long id) {
+
+        Paciente paciente = buscarPorId(id);
+
+        validarAreaActiva(paciente.getAreaSaludId());
+        paciente.setActivo(true);
+
+        return pacienteRepositoryPort.save(paciente);
+    }
+
     /**
      * Regla de negocio: un paciente solo puede asignarse a un área de salud existente y activa.
      */

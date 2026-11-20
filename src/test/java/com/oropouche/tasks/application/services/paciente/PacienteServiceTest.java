@@ -176,4 +176,26 @@ class PacienteServiceTest {
 
         assertFalse(service.desactivar(10L).isActivo());
     }
+
+    @Test
+    void activarReactivaSoloSiSuAreaSigueActiva() {
+
+        Paciente inactivo = crearPaciente(1L);
+        inactivo.setId(10L);
+        inactivo.setActivo(false);
+        when(pacienteRepository.findById(10L)).thenReturn(Optional.of(inactivo));
+        when(pacienteRepository.save(any(Paciente.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(areaSaludRepository.findById(1L)).thenReturn(Optional.of(area(1L, true)));
+
+        assertTrue(service.activar(10L).isActivo());
+
+        Paciente enAreaCerrada = crearPaciente(2L);
+        enAreaCerrada.setId(11L);
+        enAreaCerrada.setActivo(false);
+        when(pacienteRepository.findById(11L)).thenReturn(Optional.of(enAreaCerrada));
+        when(areaSaludRepository.findById(2L)).thenReturn(Optional.of(area(2L, false)));
+
+        assertThrows(IllegalArgumentException.class, () -> service.activar(11L));
+        assertFalse(enAreaCerrada.isActivo());
+    }
 }
