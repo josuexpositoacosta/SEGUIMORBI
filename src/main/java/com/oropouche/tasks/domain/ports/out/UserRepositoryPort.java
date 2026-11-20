@@ -12,6 +12,9 @@ public interface UserRepositoryPort {
 
     Optional<User> findByUsername(String username);
 
+    /** Busca por email ya normalizado (ver {@link com.oropouche.tasks.domain.models.user.Email}). */
+    Optional<User> findByEmail(String email);
+
     User save(User user);
 
     List<User> findAll();

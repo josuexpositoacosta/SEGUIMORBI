@@ -13,6 +13,8 @@ public class User {
 
     private Integer id;
     private String username;
+    /** Opcional. Único y en minúsculas; permite iniciar sesión con él. */
+    private String email;
     private String lastname;
     private String firstname;
     private String country;

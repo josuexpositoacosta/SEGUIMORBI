@@ -23,6 +23,7 @@ import com.oropouche.tasks.application.services.acceso.PoliticaAcceso;
 import com.oropouche.tasks.application.services.acceso.UsuarioPropioConAcceso;
 import com.oropouche.tasks.application.services.acceso.VigilanciaUseCaseConAcceso;
 import com.oropouche.tasks.application.services.vigilancia.VigilanciaService;
+import com.oropouche.tasks.domain.models.user.Email;
 import com.oropouche.tasks.domain.ports.in.VigilanciaUseCase;
 import com.oropouche.tasks.application.services.area_salud.AreaSaludService;
 import com.oropouche.tasks.application.services.user.GestionUsuariosService;
@@ -217,7 +218,10 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService(UserRepositoryPort userRepositoryPort) {
 
-        return username -> userRepositoryPort.findByUsername(username)
+        // Se puede entrar con el nombre de usuario o con el email.
+        return username -> (Email.esIdentificadorEmail(username)
+                        ? userRepositoryPort.findByEmail(Email.normalizar(username))
+                        : userRepositoryPort.findByUsername(username))
                 .map(UserDetailsAdapter::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not Found"));
     }

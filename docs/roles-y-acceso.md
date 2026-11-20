@@ -44,9 +44,15 @@ consultar o modificar **sus propios** datos personales (`/api/v1/user/me`, `/api
 | Método | Ruta | Descripción |
 |---|---|---|
 | `GET` | `/api/v1/admin/usuarios` | Listar usuarios (sin contraseñas) |
-| `POST` | `/api/v1/admin/usuarios` | Crear `{username, password, firstname, lastname, country, role, areaSaludId}` |
+| `POST` | `/api/v1/admin/usuarios` | Crear `{username, email, password, firstname, lastname, country, role, areaSaludId}` (`email` opcional) |
 | `PUT` | `/api/v1/admin/usuarios/{id}` | Cambiar `{role, areaSaludId, activo}` |
 | `PATCH` | `/api/v1/admin/usuarios/{id}/password` | Restablecer contraseña `{password}` |
+| `PATCH` | `/api/v1/admin/usuarios/{id}/email` | Asignar o cambiar el email `{email}`; vacío lo quita |
+
+**Inicio de sesión con usuario o email.** `POST /auth/login` acepta en `username` el nombre de usuario
+o el email. Como el nombre de usuario no admite `@`, un valor con `@` se busca como email. El email es
+opcional, único y se guarda en minúsculas (`Ana@Salud.cu` y `ana@salud.cu` son el mismo). Los usuarios
+que ya existían no tienen email hasta que el ADMIN se lo asigne.
 | `GET` | `/api/v1/user/me` | Perfil del usuario autenticado (id, nombre, rol, área), para el frontend |
 
 ## 5. Respuestas

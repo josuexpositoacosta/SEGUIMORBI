@@ -144,6 +144,32 @@ class SecurityIntegrationTest {
                 .andExpect(status().isUnauthorized());
     }
 
+    @Test
+    void seEntraConUsuarioOConEmailYElAdminAsignaElEmail() throws Exception {
+        String admin = token(crearUsuario(Role.ADMIN, null));
+        User epi = crearUsuario(Role.EPIDEMIOLOGO, null);
+        String email = epi.getUsername() + "@salud.cu";
+
+        mockMvc.perform(patch("/api/v1/admin/usuarios/" + epi.getId() + "/email").header("Authorization", admin)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"" + email.toUpperCase() + "\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value(email));
+
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"username\":\"" + email + "\",\"password\":\"" + PASSWORD + "\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").isNotEmpty());
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"username\":\"" + email + "\",\"password\":\"incorrecta\"}"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(get("/api/v1/user/me").header("Authorization", token(epi)))
+                .andExpect(jsonPath("$.email").value(email));
+    }
+
     // --- Roles
 
     @Test

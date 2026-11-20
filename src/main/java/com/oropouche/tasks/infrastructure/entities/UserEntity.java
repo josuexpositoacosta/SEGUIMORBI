@@ -20,7 +20,8 @@ import javax.persistence.*;
 @Table(
     name = "user",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"username"})
+        @UniqueConstraint(columnNames = {"username"}),
+        @UniqueConstraint(columnNames = {"email"})
     }
 )
 public class UserEntity {
@@ -32,6 +33,9 @@ public class UserEntity {
     @Basic
     @Column(nullable = false)
     private String username;
+
+    @Column(length = 120)
+    private String email;
 
     @Column(nullable = false)
     private String lastname;
@@ -56,6 +60,7 @@ public class UserEntity {
         return User.builder()
                 .id(id)
                 .username(username)
+                .email(email)
                 .lastname(lastname)
                 .firstname(firstname)
                 .country(country)
@@ -70,6 +75,7 @@ public class UserEntity {
         return UserEntity.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .email(user.getEmail())
                 .lastname(user.getLastname())
                 .firstname(user.getFirstname())
                 .country(user.getCountry())

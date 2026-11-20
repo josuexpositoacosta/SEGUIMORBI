@@ -15,6 +15,8 @@ public interface JpaUserRepository
 
     Optional<UserEntity> findByUsername(String username);
 
+    Optional<UserEntity> findByEmail(String email);
+
     List<UserEntity> findAllByOrderByIdAsc();
 
     long countByRoleAndActivoTrue(Role role);

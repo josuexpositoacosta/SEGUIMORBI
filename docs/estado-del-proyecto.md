@@ -5,7 +5,7 @@
 ## 1. Resumen
 
 El **backend está completo** en sus cinco fases, con arquitectura hexagonal en todos los módulos
-(dominio y aplicación en Java puro, sin dependencias de Spring ni JPA) y **164 pruebas** en verde.
+(dominio y aplicación en Java puro, sin dependencias de Spring ni JPA) y **171 pruebas** en verde.
 El siguiente paso es el **frontend**.
 
 | Fase | Contenido | Documento |
@@ -50,7 +50,7 @@ Proyecto: `oropoucheApp-main` (Ionic 8 + Angular 18 + Capacitor), fuera de este 
 Hoy solo tiene login y datos personales.
 
 Puntos de partida en la API:
-- `POST /auth/login` devuelve `{token}`. Ya **no existe** `/auth/register`.
+- `POST /auth/login` devuelve `{token}` y acepta el nombre de usuario **o el email**. Ya **no existe** `/auth/register`.
 - `GET /api/v1/user/me` devuelve id, nombre, **rol** y **área**: con eso el frontend decide qué
   pantallas mostrar. El frontend actual usa un `userId` fijo en `environment.ts`; debe pasar a usar `/me`.
 - Todas las peticiones llevan `Authorization: Bearer <token>`. `401` significa volver al login;

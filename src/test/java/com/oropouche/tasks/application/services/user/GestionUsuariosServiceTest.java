@@ -9,6 +9,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.oropouche.tasks.domain.exceptions.RecursoDuplicadoException;
 import com.oropouche.tasks.domain.exceptions.UserAlreadyExistsException;
 import com.oropouche.tasks.domain.models.area_salud.AreaSalud;
 import com.oropouche.tasks.domain.models.user.Role;
@@ -21,6 +22,7 @@ import com.oropouche.tasks.domain.ports.out.UsuarioActualPort;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -149,5 +151,57 @@ class GestionUsuariosServiceTest {
         ArgumentCaptor<User> guardado = ArgumentCaptor.forClass(User.class);
         verify(usuarios).save(guardado.capture());
         assertEquals(Role.ADMIN, guardado.getValue().getRole());
+    }
+
+    // --- Email
+
+    @Test
+    void crearGuardaElEmailNormalizado() {
+        when(usuarios.findByUsername("dra.perez")).thenReturn(Optional.empty());
+        when(usuarios.findByEmail("ana.perez@salud.cu")).thenReturn(Optional.empty());
+        when(encoder.encode("Clave1234")).thenReturn("$hash$");
+        when(usuarios.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
+        User datos = nuevo(Role.EPIDEMIOLOGO, null);
+        datos.setEmail("  Ana.Perez@Salud.CU ");
+
+        User creado = service.crear(datos);
+
+        assertEquals("ana.perez@salud.cu", creado.getEmail());
+    }
+
+    @Test
+    void crearSinEmailLoDejaVacio() {
+        when(usuarios.findByUsername("dra.perez")).thenReturn(Optional.empty());
+        when(encoder.encode("Clave1234")).thenReturn("$hash$");
+        when(usuarios.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        assertNull(service.crear(nuevo(Role.EPIDEMIOLOGO, null)).getEmail());
+        verify(usuarios, never()).findByEmail(anyString());
+    }
+
+    @Test
+    void emailConFormatoInvalidoODuplicadoSeRechaza() {
+        when(usuarios.findByUsername("dra.perez")).thenReturn(Optional.empty());
+        User datos = nuevo(Role.EPIDEMIOLOGO, null);
+
+        datos.setEmail("no-es-un-email");
+        assertThrows(IllegalArgumentException.class, () -> service.crear(datos));
+
+        datos.setEmail("ocupado@salud.cu");
+        when(usuarios.findByEmail("ocupado@salud.cu"))
+                .thenReturn(Optional.of(User.builder().id(9).username("otro").build()));
+        assertThrows(RecursoDuplicadoException.class, () -> service.crear(datos));
+        verify(usuarios, never()).save(any(User.class));
+    }
+
+    @Test
+    void cambiarEmailPermiteConservarElPropioYQuitarlo() {
+        User usuario = User.builder().id(5).username("ana").email("ana@salud.cu").build();
+        when(usuarios.findById(5)).thenReturn(Optional.of(usuario));
+        when(usuarios.findByEmail("ana@salud.cu")).thenReturn(Optional.of(usuario));
+        when(usuarios.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        assertEquals("ana@salud.cu", service.cambiarEmail(5, "ANA@salud.cu").getEmail());
+        assertNull(service.cambiarEmail(5, "  ").getEmail());
     }
 }

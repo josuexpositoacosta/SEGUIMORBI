@@ -125,4 +125,23 @@ class JpaUserRepositoryAdapterTest {
 
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void shouldFindUserByEmail() {
+
+        userRepositoryAdapter.save(User.builder()
+                .username("conemail")
+                .email("con.email@salud.cu")
+                .password("encodedPassword")
+                .firstname("Con")
+                .lastname("Email")
+                .role(Role.EPIDEMIOLOGO)
+                .build());
+
+        Optional<User> result = userRepositoryAdapter.findByEmail("con.email@salud.cu");
+
+        assertTrue(result.isPresent());
+        assertEquals("conemail", result.get().getUsername());
+        assertTrue(userRepositoryAdapter.findByEmail("otro@salud.cu").isEmpty());
+    }
 }
