@@ -20,4 +20,7 @@ public interface PacienteUseCase {
     List<Paciente> buscarPorAreaSalud(Long areaSaludId);
 
     Paciente desactivar(Long id);
+
+    /** Vuelve a activar un paciente desactivado. Su área de salud debe seguir activa. */
+    Paciente activar(Long id);
 }

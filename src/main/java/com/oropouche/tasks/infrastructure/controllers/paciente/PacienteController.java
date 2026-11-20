@@ -69,6 +69,11 @@ public class PacienteController {
         return ResponseEntity.ok(toResponse(pacienteUseCase.desactivar(id)));
     }
 
+    @PatchMapping("/{id}/activar")
+    public ResponseEntity<PacienteResponse> activar(@PathVariable Long id) {
+        return ResponseEntity.ok(toResponse(pacienteUseCase.activar(id)));
+    }
+
     private Paciente toDomain(PacienteRequest request) {
         Paciente paciente = new Paciente();
         paciente.setTipoDocumento(request.getTipoDocumento());

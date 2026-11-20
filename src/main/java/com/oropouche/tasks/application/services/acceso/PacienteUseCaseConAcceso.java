@@ -64,6 +64,12 @@ public class PacienteUseCaseConAcceso implements PacienteUseCase {
         return delegado.desactivar(id);
     }
 
+    @Override
+    public Paciente activar(Long id) {
+        verificarEscrituraSobreExistente(id);
+        return delegado.activar(id);
+    }
+
     private void verificarEscrituraSobreExistente(Long id) {
         if (id == null) {
             politica.verificarRol(Role.MEDICO);

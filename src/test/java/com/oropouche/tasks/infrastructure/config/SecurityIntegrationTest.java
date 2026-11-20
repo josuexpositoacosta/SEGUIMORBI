@@ -299,6 +299,26 @@ class SecurityIntegrationTest {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void elMedicoReactivaPacientesSoloDeSuArea() throws Exception {
+        String medicoA = token(crearUsuario(Role.MEDICO, areaA));
+        String medicoB = token(crearUsuario(Role.MEDICO, areaB));
+        String doc = "REACT-" + SECUENCIA.incrementAndGet();
+        String creado = mockMvc.perform(post("/api/v1/pacientes").header("Authorization", medicoA)
+                        .contentType(MediaType.APPLICATION_JSON).content(paciente(doc, areaA)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        String id = creado.replaceAll(".*\"id\":(\\d+).*", "$1");
+
+        mockMvc.perform(patch("/api/v1/pacientes/" + id + "/desactivar").header("Authorization", medicoA))
+                .andExpect(jsonPath("$.activo").value(false));
+        mockMvc.perform(patch("/api/v1/pacientes/" + id + "/activar").header("Authorization", medicoB))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(patch("/api/v1/pacientes/" + id + "/activar").header("Authorization", medicoA))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.activo").value(true));
+    }
+
     // --- Estadísticas
 
     @Test
