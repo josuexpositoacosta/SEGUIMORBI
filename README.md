@@ -1,4 +1,4 @@
-# Oropouche
+# SEGUIMORBI
 
 **Epidemiological Case Management System and Clinical Decision Support for Oropouche Fever**
 
@@ -10,7 +10,7 @@
 
 ### Overview
 
-Oropouche is a backend software project designed to manage and track Oropouche fever cases across different healthcare areas.
+SEGUIMORBI is a backend software project designed to manage and track Oropouche fever cases across different healthcare areas.
 
 Its purpose is to centralize epidemiological and clinical information, help healthcare professionals evaluate reported cases, document medical assessments, and organize patient care plans and follow-up activities.
 
@@ -107,7 +107,7 @@ cp application-local.properties.example application-local.properties
 
 | Variable | Default | Description |
 |---|---|---|
-| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `oropouchedb` | MySQL connection |
+| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `seguimorbidb` | MySQL connection |
 | `DB_USERNAME` / `DB_PASSWORD` | `root` / *(empty)* | MySQL credentials |
 | `JWT_SECRET` | *(required)* | Base64 HMAC key, at least 256 bits |
 | `JWT_EXPIRATION_MS` | `86400000` | Token validity (24 h) |
@@ -142,11 +142,11 @@ Not all the functional modules described in the objectives are implemented yet.
 
 ### Clinical considerations
 
-Oropouche is intended to support epidemiological management and clinical assessment. It does not replace medical diagnosis, professional judgment, or treatment decisions.
+SEGUIMORBI is intended to support epidemiological management and clinical assessment. It does not replace medical diagnosis, professional judgment, or treatment decisions.
 
 ### Repository
 
-[GitHub - josuexpositoacosta/oropouche](https://github.com/josuexpositoacosta/oropouche)
+[GitHub - josuexpositoacosta/SEGUIMORBI](https://github.com/josuexpositoacosta/SEGUIMORBI)
 
 ---
 
@@ -154,7 +154,7 @@ Oropouche is intended to support epidemiological management and clinical assessm
 
 ### Descripción general
 
-Oropouche es un proyecto de software backend diseñado para gestionar y realizar el seguimiento de casos de fiebre de Oropouche en las diferentes áreas de salud.
+SEGUIMORBI es un proyecto de software backend diseñado para gestionar y realizar el seguimiento de casos de fiebre de Oropouche en las diferentes áreas de salud.
 
 Su propósito es centralizar la información epidemiológica y clínica de los pacientes, facilitar el seguimiento de los casos y proporcionar herramientas de apoyo al personal médico para la evaluación, elaboración de dictámenes y planificación de la atención sanitaria.
 
@@ -251,7 +251,7 @@ cp application-local.properties.example application-local.properties
 
 | Variable | Valor por defecto | Descripción |
 |---|---|---|
-| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `oropouchedb` | Conexión a MySQL |
+| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `seguimorbidb` | Conexión a MySQL |
 | `DB_USERNAME` / `DB_PASSWORD` | `root` / *(vacío)* | Credenciales de MySQL |
 | `JWT_SECRET` | *(obligatoria)* | Clave HMAC en Base64, mínimo 256 bits |
 | `JWT_EXPIRATION_MS` | `86400000` | Validez del token (24 h) |
@@ -286,11 +286,11 @@ No todos los módulos funcionales descritos en los objetivos están implementado
 
 ### Consideraciones clínicas
 
-Oropouche está concebido como una herramienta de apoyo a la gestión epidemiológica y a la evaluación clínica. No sustituye el diagnóstico médico, el criterio profesional ni las decisiones terapéuticas del personal sanitario.
+SEGUIMORBI está concebido como una herramienta de apoyo a la gestión epidemiológica y a la evaluación clínica. No sustituye el diagnóstico médico, el criterio profesional ni las decisiones terapéuticas del personal sanitario.
 
 ### Repositorio
 
-[GitHub - josuexpositoacosta/oropouche](https://github.com/josuexpositoacosta/oropouche)
+[GitHub - josuexpositoacosta/SEGUIMORBI](https://github.com/josuexpositoacosta/SEGUIMORBI)
 
 ---
 

@@ -22,10 +22,10 @@ Requisitos: Java 17, Docker y MySQL 8 (en local se usa un contenedor).
 
 ```bash
 # 1. MySQL (el contenedor ya existe en la PC de desarrollo; los datos están en un volumen)
-docker start oropouche-mysql
+docker start seguimorbi-mysql
 #    Si no existe:
-#    docker run -d --name oropouche-mysql --restart unless-stopped -p 127.0.0.1:3306:3306 --memory 512m \
-#      -e MYSQL_ROOT_PASSWORD=<contraseña> -e MYSQL_DATABASE=oropouchedb -v oropouche_mysqldata:/var/lib/mysql \
+#    docker run -d --name seguimorbi-mysql --restart unless-stopped -p 127.0.0.1:3306:3306 --memory 512m \
+#      -e MYSQL_ROOT_PASSWORD=<contraseña> -e MYSQL_DATABASE=seguimorbidb -v seguimorbi_mysqldata:/var/lib/mysql \
 #      mysql:8.0 --performance-schema=OFF --innodb-buffer-pool-size=64M --max-connections=30
 
 # 2. Configuración local (no se sube a Git)
@@ -42,11 +42,20 @@ MAVEN_OPTS="-Xmx512m" ./mvnw clean test -DargLine="-Xmx768m"
 - Al arrancar se crea el **primer administrador** con `ADMIN_USERNAME` / `ADMIN_PASSWORD` si no
   existe ninguno, y se carga el catálogo de desenlaces si está vacío.
 - Después de un `git pull`, usar `./mvnw clean ...` para que no queden clases antiguas en `target/`.
-- Al terminar, parar la aplicación y `docker stop oropouche-mysql` para liberar memoria.
+- Al terminar, parar la aplicación y `docker stop seguimorbi-mysql` para liberar memoria.
+- **Si vienes del nombre anterior (Oropouche):** el contenedor se llamaba `oropouche-mysql` y la base
+  `oropouchedb`. Para usar los nombres nuevos sin perder datos:
+  ```bash
+  docker rename oropouche-mysql seguimorbi-mysql
+  docker start seguimorbi-mysql
+  # La base seguimorbidb se crea sola al arrancar (createDatabaseIfNotExist). Para copiar los datos antiguos:
+  docker exec seguimorbi-mysql sh -c 'mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" oropouchedb | mysql -uroot -p"$MYSQL_ROOT_PASSWORD" seguimorbidb'
+  ```
 
 ## 3. Para empezar el frontend
 
-Proyecto: `oropoucheApp-main` (Ionic 8 + Angular 18 + Capacitor), fuera de este repositorio.
+Proyecto: `SEGUIMORBI-app` (Ionic 8 + Angular 18 + Capacitor), repositorio
+[SEGUIMORBI-app](https://github.com/josuexpositoacosta/SEGUIMORBI-app).
 Hoy solo tiene login y datos personales.
 
 Puntos de partida en la API:
@@ -83,5 +92,4 @@ Técnico:
   de `javax` a `jakarta`.
 - Auditoría general (quién y cuándo) también para pacientes y áreas; los casos ya la tienen.
 - Paginación en los listados y conteos de vigilancia agregados en base de datos si el volumen crece.
-- Renombrar el paquete `com.oropouche.tasks`, heredado de la plantilla inicial, en un commit aparte.
 - Documentación OpenAPI/Swagger para el frontend, Docker Compose y CI con GitHub Actions.

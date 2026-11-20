@@ -5,7 +5,7 @@ resultados de laboratorio y clasificación según las definiciones de la OPS.
 
 > El sistema **sugiere** la clasificación de cada caso a partir de los criterios de la OPS
 > y muestra qué criterios se cumplen. **La clasificación la decide siempre el profesional
-> sanitario**: Oropouche es una herramienta de apoyo y no sustituye el criterio clínico.
+> sanitario**: SEGUIMORBI es una herramienta de apoyo y no sustituye el criterio clínico.
 
 ---
 
