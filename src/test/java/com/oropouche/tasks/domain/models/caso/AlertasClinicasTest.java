@@ -49,7 +49,7 @@ class AlertasClinicasTest {
         List<Alerta> resultado = alertas.evaluar(caso, HOY);
 
         assertEquals(List.of(TipoAlerta.NEUROINVASIVA), resultado.stream().map(Alerta::tipo).collect(Collectors.toList()));
-        assertTrue(resultado.get(0).mensaje().contains("RIGIDEZ_NUCA"));
+        assertTrue(resultado.get(0).mensaje().contains("rigidez de nuca"));
         assertTrue(resultado.get(0).mensaje().contains("unidad especializada"));
     }
 
