@@ -19,6 +19,7 @@ import com.oropouche.tasks.domain.models.caso.AgenteEtiologico;
 import com.oropouche.tasks.domain.models.caso.Caso;
 import com.oropouche.tasks.domain.models.caso.ClasificadorOPS;
 import com.oropouche.tasks.domain.models.caso.Clasificacion;
+import com.oropouche.tasks.domain.models.caso.ResultadoClasificacion;
 import com.oropouche.tasks.domain.models.caso.EstadoCaso;
 import com.oropouche.tasks.domain.models.caso.EvaluacionCaso;
 import com.oropouche.tasks.domain.models.caso.Manifestacion;
@@ -405,5 +406,21 @@ class CasoServiceTest {
         assertEquals("epi.gomez", r.caso().getEventos().get(0).getUsuario());
 
         assertThrows(IllegalArgumentException.class, () -> service.validarClasificacion(1L, null));
+    }
+
+    @Test
+    void sugerirEvaluaSinGuardarNada() {
+        ResultadoClasificacion sospechoso = service.sugerir(datosSospechoso());
+
+        assertEquals(Optional.of(Clasificacion.SOSPECHOSO), sospechoso.sugerida());
+        assertTrue(sospechoso.criterios().contains("Cefalea intensa"));
+
+        Caso sinCefalea = datosSospechoso();
+        sinCefalea.setCefaleaIntensa(false);
+        ResultadoClasificacion ninguna = service.sugerir(sinCefalea);
+
+        assertTrue(ninguna.sugerida().isEmpty());
+        assertTrue(ninguna.criterios().contains("No cumple: sin cefalea intensa"));
+        verifyNoInteractions(casoRepository, pacienteRepository);
     }
 }

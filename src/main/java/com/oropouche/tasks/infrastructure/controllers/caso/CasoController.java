@@ -26,6 +26,7 @@ import com.oropouche.tasks.infrastructure.controllers.caso.dto.CasoRequest;
 import com.oropouche.tasks.infrastructure.controllers.caso.dto.CasoResponse;
 import com.oropouche.tasks.infrastructure.controllers.caso.dto.MotivoRequest;
 import com.oropouche.tasks.infrastructure.controllers.caso.dto.ResultadoLaboratorioRequest;
+import com.oropouche.tasks.infrastructure.controllers.caso.dto.SugerenciaResponse;
 
 /**
  * Adaptador de entrada REST para casos de Oropouche. Solo traduce HTTP ↔ caso de uso.
@@ -44,6 +45,12 @@ public class CasoController {
     public ResponseEntity<CasoResponse> registrar(@RequestBody CasoRequest request) {
         EvaluacionCaso creado = casoUseCase.registrar(toDomain(request), request.getMotivo());
         return new ResponseEntity<>(CasoResponse.from(creado), HttpStatus.CREATED);
+    }
+
+    /** Vista previa de la clasificación según la definición de caso, sin guardar nada. */
+    @PostMapping("/casos/sugerencia")
+    public ResponseEntity<SugerenciaResponse> sugerir(@RequestBody CasoRequest request) {
+        return ResponseEntity.ok(SugerenciaResponse.from(casoUseCase.sugerir(toDomain(request))));
     }
 
     @GetMapping("/casos")

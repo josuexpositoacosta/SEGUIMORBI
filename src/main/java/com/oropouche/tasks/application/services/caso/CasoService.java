@@ -113,6 +113,14 @@ public class CasoService implements CasoUseCase {
     }
 
     @Override
+    public ResultadoClasificacion sugerir(Caso datos) {
+        if (datos == null) {
+            throw new IllegalArgumentException("Los datos del caso son obligatorios");
+        }
+        return definicionCaso.evaluar(datos);
+    }
+
+    @Override
     public EvaluacionCaso buscarPorId(Long id) {
         return soporte.evaluar(soporte.obtener(id));
     }

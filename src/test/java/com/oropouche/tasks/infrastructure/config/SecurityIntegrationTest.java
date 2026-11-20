@@ -223,6 +223,25 @@ class SecurityIntegrationTest {
     }
 
     @Test
+    void laVistaPreviaDeClasificacionEsDelMedicoYNoGuardaNada() throws Exception {
+        String medico = token(crearUsuario(Role.MEDICO, areaA));
+        String epi = token(crearUsuario(Role.EPIDEMIOLOGO, null));
+        String hoy = java.time.LocalDate.now().toString();
+        String datos = "{\"fechaInicioSintomas\":\"" + hoy + "\",\"fechaNotificacion\":\"" + hoy + "\","
+                + "\"fiebre\":true,\"cefaleaIntensa\":true,\"manifestaciones\":[\"MAREOS\",\"FOTOFOBIA\"],"
+                + "\"nexoCasoConfirmado\":true}";
+
+        mockMvc.perform(post("/api/v1/casos/sugerencia").header("Authorization", medico)
+                        .contentType(MediaType.APPLICATION_JSON).content(datos))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.clasificacion").value("PROBABLE"))
+                .andExpect(jsonPath("$.criterios").isNotEmpty());
+        mockMvc.perform(post("/api/v1/casos/sugerencia").header("Authorization", epi)
+                        .contentType(MediaType.APPLICATION_JSON).content(datos))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void medicoNoAdministraNiGestionaCatalogos() throws Exception {
         String medico = token(crearUsuario(Role.MEDICO, areaA));
 
