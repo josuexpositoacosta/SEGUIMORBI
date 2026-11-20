@@ -5,7 +5,7 @@
 ## 1. Resumen
 
 El **backend está completo** en sus cinco fases, con arquitectura hexagonal en todos los módulos
-(dominio y aplicación en Java puro, sin dependencias de Spring ni JPA) y **172 pruebas** en verde.
+(dominio y aplicación en Java puro, sin dependencias de Spring ni JPA) y **174 pruebas** en verde.
 El siguiente paso es el **frontend**.
 
 | Fase | Contenido | Documento |

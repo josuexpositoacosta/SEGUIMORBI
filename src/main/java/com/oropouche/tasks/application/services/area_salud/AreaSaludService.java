@@ -128,6 +128,16 @@ public class AreaSaludService implements AreaSaludUseCase {
         return areaSaludRepositoryPort.save(area);
     }
 
+    @Override
+    public AreaSalud activar(Long id) {
+
+        AreaSalud area = buscarPorId(id);
+
+        area.setActivo(true);
+
+        return areaSaludRepositoryPort.save(area);
+    }
+
     private void validarDatos(AreaSalud area) {
 
         if (area == null) {

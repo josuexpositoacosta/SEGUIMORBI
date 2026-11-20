@@ -208,6 +208,21 @@ class SecurityIntegrationTest {
     }
 
     @Test
+    void soloElAdminDesactivaYReactivaAreas() throws Exception {
+        String admin = token(crearUsuario(Role.ADMIN, null));
+        String medico = token(crearUsuario(Role.MEDICO, areaA));
+
+        mockMvc.perform(patch("/api/v1/areas-salud/" + areaB + "/desactivar").header("Authorization", admin))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.activo").value(false));
+        mockMvc.perform(patch("/api/v1/areas-salud/" + areaB + "/activar").header("Authorization", medico))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(patch("/api/v1/areas-salud/" + areaB + "/activar").header("Authorization", admin))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.activo").value(true));
+    }
+
+    @Test
     void medicoNoAdministraNiGestionaCatalogos() throws Exception {
         String medico = token(crearUsuario(Role.MEDICO, areaA));
 

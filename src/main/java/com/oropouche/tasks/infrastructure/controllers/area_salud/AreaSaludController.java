@@ -69,6 +69,11 @@ public class AreaSaludController {
         return ResponseEntity.ok(toResponse(areaSaludUseCase.desactivar(id)));
     }
 
+    @PatchMapping("/{id}/activar")
+    public ResponseEntity<AreaSaludResponse> activar(@PathVariable Long id) {
+        return ResponseEntity.ok(toResponse(areaSaludUseCase.activar(id)));
+    }
+
     private AreaSalud toDomain(AreaSaludRequest request) {
         AreaSalud area = new AreaSalud();
         area.setCodigo(request.getCodigo());
