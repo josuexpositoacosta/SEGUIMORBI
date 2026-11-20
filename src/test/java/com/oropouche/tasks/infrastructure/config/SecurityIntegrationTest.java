@@ -170,6 +170,26 @@ class SecurityIntegrationTest {
                 .andExpect(jsonPath("$.email").value(email));
     }
 
+    @Test
+    void losErroresDeSeguridadLlevanCabecerasCorsParaElFrontend() throws Exception {
+        String frontend = "http://localhost:4200";
+
+        mockMvc.perform(get("/api/v1/user/me").header("Origin", frontend)
+                        .header("Authorization", "Bearer token.invalido.firma"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(header().string("Access-Control-Allow-Origin", frontend));
+
+        mockMvc.perform(options("/api/v1/user/me").header("Origin", frontend)
+                        .header("Access-Control-Request-Method", "GET")
+                        .header("Access-Control-Request-Headers", "authorization"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", frontend));
+
+        mockMvc.perform(options("/api/v1/user/me").header("Origin", "http://otro-sitio.example")
+                        .header("Access-Control-Request-Method", "GET"))
+                .andExpect(status().isForbidden());
+    }
+
     // --- Roles
 
     @Test
