@@ -2,7 +2,7 @@
 # También puedes definir estas mismas variables de entorno en lugar de usar el archivo.
 DB_HOST=localhost
 DB_PORT=3306
-DB_NAME=oropouchedb
+DB_NAME=seguimorbidb
 DB_USERNAME=root
 DB_PASSWORD=
 # Generar con: openssl rand -base64 32

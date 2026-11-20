@@ -34,3 +34,6 @@ build/
 
 ### Configuración local con secretos ###
 application-local.properties
+
+# Informes generados por Qodana
+qodana.sarif.json

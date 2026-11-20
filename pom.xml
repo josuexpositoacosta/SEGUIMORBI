@@ -8,11 +8,11 @@
 		<version>2.6.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.oropouche</groupId>
-	<artifactId>tasks</artifactId>
+	<groupId>com.seguimorbi</groupId>
+	<artifactId>seguimorbi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tasks</name>
-	<description>Projecto para oropouche</description>
+	<name>SEGUIMORBI</name>
+	<description>SEGUIMORBI: gestión epidemiológica y apoyo clínico de casos de fiebre de Oropouche (backend)</description>
 
 <properties>
     <java.version>17</java.version>
