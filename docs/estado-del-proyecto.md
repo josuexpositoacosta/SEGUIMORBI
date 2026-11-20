@@ -5,7 +5,7 @@
 ## 1. Resumen
 
 El **backend está completo** en sus cinco fases, con arquitectura hexagonal en todos los módulos
-(dominio y aplicación en Java puro, sin dependencias de Spring ni JPA) y **171 pruebas** en verde.
+(dominio y aplicación en Java puro, sin dependencias de Spring ni JPA) y **172 pruebas** en verde.
 El siguiente paso es el **frontend**.
 
 | Fase | Contenido | Documento |
@@ -55,7 +55,8 @@ Puntos de partida en la API:
   pantallas mostrar. El frontend actual usa un `userId` fijo en `environment.ts`; debe pasar a usar `/me`.
 - Todas las peticiones llevan `Authorization: Bearer <token>`. `401` significa volver al login;
   `403` significa sin permiso (el cuerpo trae un mensaje explicativo en español).
-- CORS permitido para `http://localhost:4200`.
+- CORS permitido para `http://localhost:4200` (configurable con `CORS_ALLOWED_ORIGINS`). Se aplica en la
+  cadena de seguridad, así que también los `401`/`403` llevan cabeceras CORS y el frontend puede leerlos.
 
 Pantallas que se desprenden de los roles:
 

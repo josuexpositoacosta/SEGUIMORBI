@@ -112,6 +112,7 @@ cp application-local.properties.example application-local.properties
 | `JWT_SECRET` | *(required)* | Base64 HMAC key, at least 256 bits |
 | `JWT_EXPIRATION_MS` | `86400000` | Token validity (24 h) |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | *(empty)* | First administrator, created at startup if there is no active ADMIN (password of at least 8 characters) |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:4200` | Frontend origins allowed by CORS, comma-separated |
 
 ### Technology stack
 
@@ -127,7 +128,7 @@ cp application-local.properties.example application-local.properties
 
 The project includes automated tests for use cases, application services, persistence adapters, REST controllers, and security rules (integration tests with H2).
 
-Latest recorded validation: **171 tests executed, with no failures or errors.**
+Latest recorded validation: **172 tests executed, with no failures or errors.**
 
 Current status, how to run the project locally, and next steps: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 
@@ -255,6 +256,7 @@ cp application-local.properties.example application-local.properties
 | `JWT_SECRET` | *(obligatoria)* | Clave HMAC en Base64, mínimo 256 bits |
 | `JWT_EXPIRATION_MS` | `86400000` | Validez del token (24 h) |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | *(vacío)* | Primer administrador, se crea al arrancar si no hay ningún ADMIN activo (contraseña de al menos 8 caracteres) |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:4200` | Orígenes del frontend permitidos por CORS, separados por comas |
 
 ### Tecnologías
 
@@ -270,7 +272,7 @@ cp application-local.properties.example application-local.properties
 
 El proyecto dispone de pruebas automatizadas para casos de uso, servicios de aplicación, adaptadores de persistencia, controladores REST y reglas de seguridad (pruebas de integración con H2).
 
-Última validación registrada: **171 pruebas ejecutadas, sin fallos ni errores.**
+Última validación registrada: **172 pruebas ejecutadas, sin fallos ni errores.**
 
 Estado actual, cómo arrancar el proyecto en local y siguientes pasos: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 
