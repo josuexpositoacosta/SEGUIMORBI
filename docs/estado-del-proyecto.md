@@ -43,6 +43,7 @@ MAVEN_OPTS="-Xmx512m" ./mvnw clean test -DargLine="-Xmx768m"
   existe ninguno, y se carga el catálogo de desenlaces si está vacío.
 - Después de un `git pull`, usar `./mvnw clean ...` para que no queden clases antiguas en `target/`.
 - Al terminar, parar la aplicación y `docker stop seguimorbi-mysql` para liberar memoria.
+- Para levantar la API en GitHub Codespaces (demostraciones), ver [codespaces.md](codespaces.md).
 - **Si vienes del nombre anterior (Oropouche):** el contenedor se llamaba `oropouche-mysql` y la base
   `oropouchedb`. Para usar los nombres nuevos sin perder datos:
   ```bash

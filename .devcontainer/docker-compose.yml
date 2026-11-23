@@ -1,0 +1,33 @@
+# Entorno de GitHub Codespaces: la API (Java 17) y MySQL 8 en la misma red.
+# La base no se expone fuera del codespace; solo se publica el puerto 8080 de la API.
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/java:1-17-bookworm
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    # Comparte la red de "db": MySQL se ve como localhost:3306.
+    network_mode: service:db
+    environment:
+      DB_HOST: localhost
+      DB_PORT: "3306"
+      DB_NAME: seguimorbidb
+      DB_USERNAME: root
+      # Contraseña solo interna del codespace (la base no es accesible desde fuera).
+      DB_PASSWORD: seguimorbi-codespace
+      ADMIN_USERNAME: admin
+      CORS_ALLOWED_ORIGINS: http://localhost:4200,https://josuexpositoacosta.github.io
+      # JWT_SECRET y ADMIN_PASSWORD llegan como secretos de Codespaces (ver docs/codespaces.md).
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: seguimorbi-codespace
+      MYSQL_DATABASE: seguimorbidb
+    command: --performance-schema=OFF --innodb-buffer-pool-size=64M --max-connections=30
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
