@@ -1,0 +1,8 @@
+target/
+.git/
+.devcontainer/
+.idea/
+.vscode/
+docs/
+*.zip
+application-local.properties
