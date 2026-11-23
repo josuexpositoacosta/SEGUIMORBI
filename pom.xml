@@ -8,11 +8,11 @@
 		<version>2.6.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.oropouche</groupId>
-	<artifactId>tasks</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>tasks</name>
-	<description>Projecto para oropouche</description>
+	<groupId>com.seguimorbi</groupId>
+	<artifactId>seguimorbi</artifactId>
+	<version>1.0.0</version>
+	<name>SEGUIMORBI</name>
+	<description>SEGUIMORBI: gestión epidemiológica y apoyo clínico de casos de fiebre de Oropouche (backend)</description>
 
 <properties>
     <java.version>17</java.version>
@@ -198,6 +198,20 @@
                         <version>${lombok.version}</version>
                     </path>
                 </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+
+        <!-- Empaqueta un jar ejecutable (java -jar), necesario para el despliegue con Docker. -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
             </configuration>
         </plugin>
 

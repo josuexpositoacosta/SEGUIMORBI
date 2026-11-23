@@ -1,0 +1,26 @@
+# Blueprint de Render: crea la API en el plan gratuito a partir del Dockerfile.
+# Los valores con "sync: false" se piden al crear el servicio (no se guardan en Git).
+# Ver docs/despliegue-render.md
+services:
+  - type: web
+    name: seguimorbi-api
+    runtime: docker
+    plan: free
+    branch: main
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://josuexpositoacosta.github.io,http://localhost:4200

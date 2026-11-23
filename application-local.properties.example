@@ -2,7 +2,7 @@
 # También puedes definir estas mismas variables de entorno en lugar de usar el archivo.
 DB_HOST=localhost
 DB_PORT=3306
-DB_NAME=oropouchedb
+DB_NAME=seguimorbidb
 DB_USERNAME=root
 DB_PASSWORD=
 # Generar con: openssl rand -base64 32
@@ -10,3 +10,5 @@ JWT_SECRET=
 # Primer administrador (se crea al arrancar si no existe ninguno; contraseña mínima de 8 caracteres)
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=
+# Orígenes del frontend permitidos por CORS, separados por comas
+CORS_ALLOWED_ORIGINS=http://localhost:4200

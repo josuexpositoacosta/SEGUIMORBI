@@ -1,4 +1,4 @@
-# SEGUIMORBI inicio con Oropouche
+# SEGUIMORBI
 
 **Epidemiological Case Management System and Clinical Decision Support for Oropouche Fever**
 
@@ -10,7 +10,7 @@
 
 ### Overview
 
-Oropouche is a backend software project designed to manage and track Oropouche fever cases across different healthcare areas.
+SEGUIMORBI is a backend software project designed to manage and track Oropouche fever cases across different healthcare areas.
 
 Its purpose is to centralize epidemiological and clinical information, help healthcare professionals evaluate reported cases, document medical assessments, and organize patient care plans and follow-up activities.
 
@@ -76,12 +76,12 @@ flowchart TB
 
 | Module | Endpoints | Notes |
 |---|---|---|
-| Authentication | `POST /auth/login` | Public. Returns a JWT. There is no public registration: users are created by the administrator. |
+| Authentication | `POST /auth/login` | Public. Returns a JWT. Accepts the username or the email. There is no public registration: users are created by the administrator. |
 | Users | `GET /api/v1/user/me`, `GET /api/v1/user/{id}`, `PUT /api/v1/user` | Each user can only read and update their own personal data. |
 | Epidemiological surveillance | `/api/v1/estadisticas/…` | EPIDEMIOLOGO only: summary indicators, epidemic curve by epidemiological week, cases by healthcare area, and CSV export without personal data. See [docs/vigilancia.md](docs/vigilancia.md). |
-| User administration | `/api/v1/admin/usuarios` | ADMIN only: create users, assign role and healthcare area, activate or deactivate, reset passwords. See [docs/roles-y-acceso.md](docs/roles-y-acceso.md). |
-| Healthcare areas | `/api/v1/areas-salud` | Create, list (all / active), find by id or code, update, deactivate. |
-| Patients | `/api/v1/pacientes` | Register, list (all / by area), find, update, deactivate. |
+| User administration | `/api/v1/admin/usuarios` | ADMIN only: create users, assign role, healthcare area and email, activate or deactivate, reset passwords. See [docs/roles-y-acceso.md](docs/roles-y-acceso.md). |
+| Healthcare areas | `/api/v1/areas-salud` | Create, list (all / active), find by id or code, update, deactivate and reactivate. |
+| Patients | `/api/v1/pacientes` | Register, list (all / by area), find, update, deactivate and reactivate (only if their healthcare area is still active). |
 | Oropouche cases | `/api/v1/casos` | Register cases, laboratory results, and classification history. The system suggests the classification using PAHO case definitions; the professional decides. See [docs/modulo-casos.md](docs/modulo-casos.md). |
 | Clinical care | `/api/v1/casos/{id}/…`, `/api/v1/desenlaces` | Clinical evaluations, medical opinions, care plans, follow-ups, case closure and reopening, follow-up schedule, and clinical alerts based on PAHO recommendations. Editable catalog of case outcomes. See [docs/modulo-clinico.md](docs/modulo-clinico.md). |
 
@@ -107,11 +107,12 @@ cp application-local.properties.example application-local.properties
 
 | Variable | Default | Description |
 |---|---|---|
-| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `oropouchedb` | MySQL connection |
+| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `seguimorbidb` | MySQL connection |
 | `DB_USERNAME` / `DB_PASSWORD` | `root` / *(empty)* | MySQL credentials |
 | `JWT_SECRET` | *(required)* | Base64 HMAC key, at least 256 bits |
 | `JWT_EXPIRATION_MS` | `86400000` | Token validity (24 h) |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | *(empty)* | First administrator, created at startup if there is no active ADMIN (password of at least 8 characters) |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:4200` | Frontend origins allowed by CORS, comma-separated |
 
 ### Technology stack
 
@@ -127,7 +128,7 @@ cp application-local.properties.example application-local.properties
 
 The project includes automated tests for use cases, application services, persistence adapters, REST controllers, and security rules (integration tests with H2).
 
-Latest recorded validation: **164 tests executed, with no failures or errors.**
+Latest recorded validation: **178 tests executed, with no failures or errors.**
 
 Current status, how to run the project locally, and next steps: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 
@@ -141,11 +142,11 @@ Not all the functional modules described in the objectives are implemented yet.
 
 ### Clinical considerations
 
-Oropouche is intended to support epidemiological management and clinical assessment. It does not replace medical diagnosis, professional judgment, or treatment decisions.
+SEGUIMORBI is intended to support epidemiological management and clinical assessment. It does not replace medical diagnosis, professional judgment, or treatment decisions.
 
 ### Repository
 
-[GitHub - josuexpositoacosta/oropouche](https://github.com/josuexpositoacosta/oropouche)
+[GitHub - josuexpositoacosta/SEGUIMORBI](https://github.com/josuexpositoacosta/SEGUIMORBI)
 
 ---
 
@@ -153,7 +154,7 @@ Oropouche is intended to support epidemiological management and clinical assessm
 
 ### Descripción general
 
-Oropouche es un proyecto de software backend diseñado para gestionar y realizar el seguimiento de casos de fiebre de Oropouche en las diferentes áreas de salud.
+SEGUIMORBI es un proyecto de software backend diseñado para gestionar y realizar el seguimiento de casos de fiebre de Oropouche en las diferentes áreas de salud.
 
 Su propósito es centralizar la información epidemiológica y clínica de los pacientes, facilitar el seguimiento de los casos y proporcionar herramientas de apoyo al personal médico para la evaluación, elaboración de dictámenes y planificación de la atención sanitaria.
 
@@ -219,12 +220,12 @@ flowchart TB
 
 | Módulo | Endpoints | Notas |
 |---|---|---|
-| Autenticación | `POST /auth/login` | Público. Devuelve un JWT. No hay registro público: los usuarios los crea el administrador. |
+| Autenticación | `POST /auth/login` | Público. Devuelve un JWT. Acepta el nombre de usuario o el email. No hay registro público: los usuarios los crea el administrador. |
 | Usuarios | `GET /api/v1/user/me`, `GET /api/v1/user/{id}`, `PUT /api/v1/user` | Cada usuario solo consulta y modifica sus propios datos personales. |
 | Vigilancia epidemiológica | `/api/v1/estadisticas/…` | Solo EPIDEMIOLOGO: indicadores, curva epidémica por semana epidemiológica, casos por área de salud y exportación CSV sin datos personales. Ver [docs/vigilancia.md](docs/vigilancia.md). |
-| Administración de usuarios | `/api/v1/admin/usuarios` | Solo ADMIN: crear usuarios, asignar rol y área de salud, activar o desactivar y restablecer contraseñas. Ver [docs/roles-y-acceso.md](docs/roles-y-acceso.md). |
-| Áreas de salud | `/api/v1/areas-salud` | Crear, listar (todas / activas), buscar por id o código, actualizar, desactivar. |
-| Pacientes | `/api/v1/pacientes` | Registrar, listar (todos / por área), buscar, actualizar, desactivar. |
+| Administración de usuarios | `/api/v1/admin/usuarios` | Solo ADMIN: crear usuarios, asignar rol, área de salud y email, activar o desactivar y restablecer contraseñas. Ver [docs/roles-y-acceso.md](docs/roles-y-acceso.md). |
+| Áreas de salud | `/api/v1/areas-salud` | Crear, listar (todas / activas), buscar por id o código, actualizar, desactivar y reactivar. |
+| Pacientes | `/api/v1/pacientes` | Registrar, listar (todos / por área), buscar, actualizar, desactivar y reactivar (solo si su área de salud sigue activa). |
 | Casos de Oropouche | `/api/v1/casos` | Registro de casos, resultados de laboratorio e historial de clasificación. El sistema sugiere la clasificación según las definiciones de caso de la OPS; decide el profesional. Ver [docs/modulo-casos.md](docs/modulo-casos.md). |
 | Atención clínica | `/api/v1/casos/{id}/…`, `/api/v1/desenlaces` | Evaluaciones clínicas, dictámenes, planes de atención, seguimientos, cierre y reapertura del caso, agenda de controles y alertas clínicas basadas en las recomendaciones de la OPS. Catálogo editable de desenlaces. Ver [docs/modulo-clinico.md](docs/modulo-clinico.md). |
 
@@ -250,11 +251,12 @@ cp application-local.properties.example application-local.properties
 
 | Variable | Valor por defecto | Descripción |
 |---|---|---|
-| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `oropouchedb` | Conexión a MySQL |
+| `DB_HOST` / `DB_PORT` / `DB_NAME` | `localhost` / `3306` / `seguimorbidb` | Conexión a MySQL |
 | `DB_USERNAME` / `DB_PASSWORD` | `root` / *(vacío)* | Credenciales de MySQL |
 | `JWT_SECRET` | *(obligatoria)* | Clave HMAC en Base64, mínimo 256 bits |
 | `JWT_EXPIRATION_MS` | `86400000` | Validez del token (24 h) |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | *(vacío)* | Primer administrador, se crea al arrancar si no hay ningún ADMIN activo (contraseña de al menos 8 caracteres) |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:4200` | Orígenes del frontend permitidos por CORS, separados por comas |
 
 ### Tecnologías
 
@@ -270,7 +272,7 @@ cp application-local.properties.example application-local.properties
 
 El proyecto dispone de pruebas automatizadas para casos de uso, servicios de aplicación, adaptadores de persistencia, controladores REST y reglas de seguridad (pruebas de integración con H2).
 
-Última validación registrada: **164 pruebas ejecutadas, sin fallos ni errores.**
+Última validación registrada: **178 pruebas ejecutadas, sin fallos ni errores.**
 
 Estado actual, cómo arrancar el proyecto en local y siguientes pasos: [docs/estado-del-proyecto.md](docs/estado-del-proyecto.md).
 
@@ -284,11 +286,11 @@ No todos los módulos funcionales descritos en los objetivos están implementado
 
 ### Consideraciones clínicas
 
-Oropouche está concebido como una herramienta de apoyo a la gestión epidemiológica y a la evaluación clínica. No sustituye el diagnóstico médico, el criterio profesional ni las decisiones terapéuticas del personal sanitario.
+SEGUIMORBI está concebido como una herramienta de apoyo a la gestión epidemiológica y a la evaluación clínica. No sustituye el diagnóstico médico, el criterio profesional ni las decisiones terapéuticas del personal sanitario.
 
 ### Repositorio
 
-[GitHub - josuexpositoacosta/oropouche](https://github.com/josuexpositoacosta/oropouche)
+[GitHub - josuexpositoacosta/SEGUIMORBI](https://github.com/josuexpositoacosta/SEGUIMORBI)
 
 ---
 

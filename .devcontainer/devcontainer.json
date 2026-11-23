@@ -1,0 +1,25 @@
+{
+  "name": "SEGUIMORBI backend",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "secrets": {
+    "JWT_SECRET": {
+      "description": "Clave HMAC en Base64 de al menos 256 bits. Generar con: openssl rand -base64 32"
+    },
+    "ADMIN_PASSWORD": {
+      "description": "Contraseña del primer administrador (usuario admin), mínimo 8 caracteres"
+    }
+  },
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": { "label": "API SEGUIMORBI", "onAutoForward": "notify" }
+  },
+  "postCreateCommand": "./mvnw -q -DskipTests dependency:go-offline",
+  "postStartCommand": "bash .devcontainer/arrancar.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["vscjava.vscode-java-pack", "vmware.vscode-spring-boot"]
+    }
+  }
+}

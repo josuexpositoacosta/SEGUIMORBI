@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SeguimorbiApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <output_file path="$PROJECT_DIR$/logs" is_save="true" />
+    <option name="MAIN_CLASS_NAME" value="com.seguimorbi.SeguimorbiApplication" />
+    <module name="tasks" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.seguimorbi.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
