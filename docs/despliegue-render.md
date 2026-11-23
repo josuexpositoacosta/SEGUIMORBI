@@ -52,7 +52,20 @@ curl -i https://seguimorbi-api.onrender.com/api/v1/user/me
 
 Registro de arranque: pestaña **Logs** del servicio (esperar a `Started SeguimorbiApplication`).
 
-## 3. Actualizar
+## 3. Datos de demostración
+
+Para enseñar la app con contenido, `scripts/datos-demo.py` carga datos **ficticios** a través de la propia API
+(2 áreas, 2 médicos y 1 epidemióloga, 12 pacientes y 10 casos con atención clínica, laboratorio y validaciones):
+
+```bash
+python3 scripts/datos-demo.py                        # contra https://seguimorbi-api.onrender.com
+python3 scripts/datos-demo.py http://localhost:8080  # o contra otra API
+```
+
+Pide la contraseña de `admin` y no duplica nada si ya se cargó. Los usuarios de demo comparten la contraseña
+`Demo.Seguimorbi2026`.
+
+## 4. Actualizar
 
 Cada push a `main` vuelve a desplegar la API (`autoDeploy`). Las tablas se crean y actualizan solas
 (`spring.jpa.hibernate.ddl-auto=update`).
